@@ -7,16 +7,26 @@ registerFont(fontPath, { family: "XiaolaiSC-Regular" as string });
 export async function POST(req: Request) {
   const { characters } = await req.json();
 
+  if (characters.length > 12) {
+    return new Response("No more than 12 characters", { status: 400 });
+  }
+
   try {
-    const characterLength = characters.length;
-    const characterWidth = characterLength * 57;
-    const canvas = createCanvas(characterWidth, 200);
+    const canvas = createCanvas(450, 400);
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `50px XiaolaiSC-Regular`;
+    ctx.font = `35px XiaolaiSC-Regular`;
     ctx.fillStyle = "black";
-    ctx.fillText(characters, 20, 100);
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const text = characters;
+    const x = canvas.width / 2;
+    const y = canvas.height / 2;
+
+    ctx.fillText(text, x, y);
 
     const buffer = canvas.toBuffer("image/png");
     const base64 = buffer.toString("base64");
