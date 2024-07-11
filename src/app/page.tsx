@@ -7,6 +7,10 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>();
 
   function generateImage() {
+    if (inputRef.current!.value.length > 12) {
+      alert("No more than 12 characters");
+      return;
+    }
     fetch("/api/font/generate", {
       method: "POST",
       headers: {
@@ -34,7 +38,7 @@ export default function Home() {
         </button>
       </div>
       <div className="flex justify-center bg-white w-[400px] h-[300px] rounded-lg">
-        <img className="object-contain" width={200} height={200} ref={generatedImage as any} src="/placeholder.png" alt="" />
+        <img className="object-contain" width={400} height={300} ref={generatedImage as any} src="/placeholder.png" alt="" />
       </div>
     </main>
   );
