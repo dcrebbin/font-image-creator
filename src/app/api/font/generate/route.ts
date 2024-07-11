@@ -1,8 +1,9 @@
 import { createCanvas, registerFont } from "canvas";
 import path from "path";
 import fs from "fs";
-const fontPath = path.join(process.cwd(), "private", "fonts", `XiaolaiSC-Regular.ttf`);
-registerFont(fontPath, { family: "XiaolaiSC-Regular" as string });
+import { FONT_NAME, FONT_TYPE } from "@/app/constants";
+const fontPath = path.join(process.cwd(), "private", "fonts", `${FONT_NAME}.${FONT_TYPE}`);
+registerFont(fontPath, { family: FONT_NAME as string });
 
 export async function POST(req: Request) {
   const { characters } = await req.json();
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `35px XiaolaiSC-Regular`;
+    ctx.font = `35px ${FONT_NAME}`;
     ctx.fillStyle = "black";
 
     ctx.textAlign = "center";
