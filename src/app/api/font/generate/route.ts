@@ -31,9 +31,9 @@ export async function POST(req: Request) {
 
     const buffer = canvas.toBuffer("image/png");
     const base64 = buffer.toString("base64");
-
-    fs.writeFileSync(path.join(process.cwd(), "public", "images", `image.png`), buffer);
-
+    if (process.env.NODE_ENV !== "production") {
+      fs.writeFileSync(path.join(process.cwd(), "public", "images", `image.png`), buffer);
+    }
     return new Response(base64, {
       headers: {
         "Content-Type": "image/png",
