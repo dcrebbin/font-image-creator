@@ -1,5 +1,6 @@
 import { createCanvas, registerFont } from "canvas";
 import path from "path";
+import fs from "fs";
 const fontPath = path.join(process.cwd(), "private", "fonts", `XiaolaiSC-Regular.ttf`);
 registerFont(fontPath, { family: "XiaolaiSC-Regular" as string });
 
@@ -8,7 +9,7 @@ export async function POST(req: Request) {
 
   try {
     const characterLength = characters.length;
-    const characterWidth = characterLength * 40;
+    const characterWidth = characterLength * 57;
     const canvas = createCanvas(characterWidth, 200);
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "white";
@@ -19,6 +20,8 @@ export async function POST(req: Request) {
 
     const buffer = canvas.toBuffer("image/png");
     const base64 = buffer.toString("base64");
+
+    fs.writeFileSync(path.join(process.cwd(), "public", "images", `image.png`), buffer);
 
     return new Response(base64, {
       headers: {
